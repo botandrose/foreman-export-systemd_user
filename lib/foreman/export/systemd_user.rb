@@ -52,6 +52,6 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
       process_master_names << "#{app}-#{name}.target"
     end
 
-    write_template "systemd/master.target.erb", "#{app}.target", binding
+    write_template "systemd_user/master.target.erb", "#{app}.target", binding
   end
 end
