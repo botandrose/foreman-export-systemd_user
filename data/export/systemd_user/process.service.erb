@@ -4,7 +4,7 @@ PartOf=<%= app %>-<%= name %>.target
 [Service]
 WorkingDirectory=<%= engine.root %>
 Environment=PORT=%i
-<% if !engine.env.empty? -%>Environment=<% engine.env.each_pair do |var,env| %>"<%= var.upcase %>=<%= env %>" <% end %><% end -%>
+<% if !engine.env.empty? -%>Environment=<% engine.env.each_pair do |var,env| %>"<%= var.upcase %>=<%= env %>" <% end %><% end %>
 ExecStart=/bin/bash -lic '<%= process.command %>'
 Restart=always
 StandardInput=null
