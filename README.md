@@ -9,8 +9,13 @@ then
 
 ```
 bundle exec foreman export systemd-user --app <app-name>
-systemctl --user enable <app-name>.target
-systemctl --user start <app-name>.target
 ```
 
-Note that you need to set `loginctl enable-linger` or systemd will kill all your user processes when you exit the shell!
+Note that this may break from foreman's protocol a bit, because it starts the processes after export. It does this by running the following:
+```
+loginctl enable-linger
+systemctl --user enable <app-name>.target
+systemctl --user restart <app-name>.target
+```
+After forgetting to run these steps enough times, I just decided to bake it into the export.
+

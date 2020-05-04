@@ -53,5 +53,17 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
     end
 
     write_template "systemd_user/master.target.erb", "#{app}.target", binding
+
+    run_command "loginctl enable-linger"
+    run_command "systemctl --user enable #{app}.target"
+    run_command "systemctl --user restart #{app}.target"
+  end
+
+  private
+
+  def run_command command
+    puts command
+    raise unless system(command)
   end
 end
+
