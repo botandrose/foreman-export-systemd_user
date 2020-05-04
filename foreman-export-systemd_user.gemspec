@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "foreman"
+  s.add_runtime_dependency "foreman", "0.86.0" # 0.87 breaks integration somewhere
 end
