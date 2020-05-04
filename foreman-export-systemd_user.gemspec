@@ -2,7 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "foreman-export-systemd_user"
-  s.version     = "0.0.2"
+  s.version     = "0.1.0"
   s.authors     = ["Micah Geisel"]
   s.email       = ["micah@botandrose.com"]
   s.homepage    = "http://github.com/botandrose/foreman-export-systemd_user"
