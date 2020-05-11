@@ -54,7 +54,7 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
 
     write_template "systemd_user/master.target.erb", "#{app}.target", binding
 
-    run_command "loginctl enable-linger"
+    run_command "test -f /var/lib/systemd/linger/$USER || loginctl enable-linger"
     run_command "systemctl --user enable #{app}.target"
     run_command "systemctl --user restart #{app}.target"
   end
