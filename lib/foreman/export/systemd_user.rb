@@ -1,6 +1,8 @@
 require "erb"
 require "foreman/export"
 
+File.instance_eval { def exists?(p); exist?(p); end } # restore old method removed in Ruby 3.2, because foreman 0.87.2 uses it, and appears abandoned, and I don't want to maintain a fork.
+
 class Foreman::Export::SystemdUser < Foreman::Export::Base
   def initialize location, engine, options={}
     super
