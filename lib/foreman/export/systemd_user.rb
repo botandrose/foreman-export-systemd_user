@@ -48,7 +48,7 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
         create_symlink("#{app}-#{name}.target.wants/#{process_name}", "../#{service_fn}") rescue Errno::EEXIST # This is needed because rr-mocks do not call the origial cleanup
       end
 
-      write_template "systemd/process_master.target.erb", "#{app}-#{name}.target", binding
+      write_template "systemd_user/process_master.target.erb", "#{app}-#{name}.target", binding
       process_master_names << "#{app}-#{name}.target"
     end
 
