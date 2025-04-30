@@ -58,7 +58,6 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
 
     run_command "test -f /var/lib/systemd/linger/$USER || loginctl enable-linger"
     run_command "systemctl --user enable #{app}.target"
-    run_command "systemctl --user restart #{app}.target"
   end
 
   private
