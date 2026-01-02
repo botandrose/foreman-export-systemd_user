@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Micah Geisel"]
   s.email       = ["micah@botandrose.com"]
   s.homepage    = "http://github.com/botandrose/foreman-export-systemd_user"
-  s.summary     = "Upstart user-level export scripts for systemd on Ubuntu 16.04+"
-  s.description = "Upstart user-level export scripts for systemd on Ubuntu 16.04+"
+  s.summary     = "Foreman export scripts for user-level systemd"
+  s.description = "Foreman export scripts for user-level systemd"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

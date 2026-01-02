@@ -1,4 +1,4 @@
-# Foreman export scripts for user-level systemd on Ubuntu 16.04+
+# Foreman export scripts for user-level systemd
 
 ```ruby
 # Gemfile
