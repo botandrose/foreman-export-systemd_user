@@ -11,14 +11,17 @@ then
 bundle exec foreman export systemd-user --app <app-name>
 ```
 
-Note that this may break from foreman's protocol a bit, because it starts the processes after export. It does this by running the following:
+After export, this runs the following to configure systemd:
 ```
 systemctl --user daemon-reload
 loginctl enable-linger
 systemctl --user enable <app-name>.target
+```
+
+To start or restart your services after export:
+```
 systemctl --user restart <app-name>.target
 ```
-After forgetting to run these steps enough times, I just decided to bake it into the export.
 
 ## Including extra systemd files
 
