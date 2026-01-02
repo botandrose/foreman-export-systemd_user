@@ -24,7 +24,15 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
 
   def export
     super
+    clean_old_units
+    write_units
+    install_include_dir
+    configure_systemd
+  end
 
+  private
+
+  def clean_old_units
     Dir["#{location}/#{app}*.target"]
       .concat(Dir["#{location}/#{app}*.service"])
       .concat(Dir["#{location}/#{app}*.target.wants/#{app}*.service"])
@@ -35,7 +43,9 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
     Dir["#{location}/#{app}*.target.wants"].each do |file|
       clean_dir file
     end
+  end
 
+  def write_units
     process_master_names = []
 
     engine.each_process do |name, process|
@@ -55,17 +65,42 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
     end
 
     write_template "systemd_user/master.target.erb", "#{app}.target", binding
-
-    run_command "test -f /var/lib/systemd/linger/$USER || loginctl enable-linger"
-    run_command "systemctl --user enable #{app}.target"
-    run_command "systemctl --user restart #{app}.target"
   end
-
-  private
 
   def run_command command
     puts command
     raise unless system(command)
+  end
+
+  def include_dir
+    dir = options[:include_dir]
+    return unless dir
+
+    raise "include_dir '#{dir}' is not a directory" unless File.directory?(dir)
+    dir
+  end
+
+  def install_include_dir
+    if include_dir
+      run_command "cp -r #{include_dir}/. #{location}/"
+    end
+  end
+
+  def configure_systemd
+    run_command "systemctl --user daemon-reload"
+    run_command "test -f /var/lib/systemd/linger/$USER || loginctl enable-linger"
+    run_command "systemctl --user enable #{app}.target"
+    run_command "systemctl --user restart #{app}.target"
+    enable_timers
+  end
+
+  def enable_timers
+    if include_dir
+      Dir.glob("#{include_dir}/*.timer").each do |timer|
+        timer_name = File.basename(timer)
+        run_command "systemctl --user enable --now #{timer_name}"
+      end
+    end
   end
 end
 
