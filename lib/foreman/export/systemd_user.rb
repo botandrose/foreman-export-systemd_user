@@ -1,17 +1,12 @@
 require "erb"
 require "foreman/export"
 
-File.instance_eval { def exists?(p); exist?(p); end } # restore old method removed in Ruby 3.2, because foreman 0.87.2 uses it, and appears abandoned, and I don't want to maintain a fork.
-
 class Foreman::Export::SystemdUser < Foreman::Export::Base
-  def initialize location, engine, options={}
+  TEMPLATE_DIR = File.expand_path("../../../../data/export/systemd_user", __FILE__)
+
+  def initialize(location, engine, options = {})
+    options[:template] ||= TEMPLATE_DIR
     super
-    # what a pain in the ass
-    # template is obviously not intended to be overriden
-    unless @options.has_key?(:template)
-      template = File.expand_path("../../../../data/export/systemd_user", __FILE__)
-      @options = { template: template }.merge(@options).freeze
-    end
   end
 
   def app
