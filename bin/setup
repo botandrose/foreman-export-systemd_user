@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "==> Installing gem dependencies..."
+bundle install
+
+echo "==> Building test container image..."
+podman build -t foreman-export-systemd-user-test -f spec/Dockerfile.systemd spec/
+
+echo "==> Setup complete! Run 'bundle exec rake spec' to run tests."

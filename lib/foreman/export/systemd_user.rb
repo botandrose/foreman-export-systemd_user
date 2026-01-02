@@ -5,8 +5,9 @@ class Foreman::Export::SystemdUser < Foreman::Export::Base
   TEMPLATE_DIR = File.expand_path("../../../../data/export/systemd_user", __FILE__)
 
   def initialize(location, engine, options = {})
+    options = options.dup
     options[:template] ||= TEMPLATE_DIR
-    super
+    super(location, engine, options)
   end
 
   def app

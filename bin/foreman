@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "foreman/cli"
+require "foreman-export-systemd_user"
+
+# Add --include-dir option to foreman export command
+Foreman::CLI.class_eval do
+  option = Thor::Option.new(:include_dir, type: :string, desc: "Directory of additional systemd files to copy")
+  export_command = commands["export"]
+  export_command.options[:include_dir] = option
+end
+
+Foreman::CLI.start
